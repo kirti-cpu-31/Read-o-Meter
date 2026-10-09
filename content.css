@@ -1,0 +1,226 @@
+/* Styles for the progress bar, card and reading themes injected into web pages */
+
+/* ---------- Page themes (applied to the whole page) ---------- */
+html.rom-theme-dark  { filter: invert(1) hue-rotate(180deg); }
+html.rom-theme-dark img,
+html.rom-theme-dark video,
+html.rom-theme-dark picture,
+html.rom-theme-dark canvas { filter: invert(1) hue-rotate(180deg); }
+html.rom-theme-sepia { filter: sepia(0.5) brightness(0.97) contrast(0.95); }
+/* Keep the Read-o-Meter UI looking the same in dark mode */
+html.rom-theme-dark #rom-bar,
+html.rom-theme-dark #rom-badge { filter: invert(1) hue-rotate(180deg); }
+
+/* ---------- Bionic reading ---------- */
+.rom-bio b { font-weight: 700; }
+
+/* ---------- Top progress bar ---------- */
+#rom-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: rgba(20, 33, 61, 0.15);
+  z-index: 2147483646;
+  pointer-events: none;
+}
+
+#rom-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #14b8a6, #38bdf8);
+  border-radius: 0 4px 4px 0;
+  transition: width 0.15s linear;
+}
+
+#rom-bar.rom-contrast { height: 8px; background: #000; }
+#rom-bar.rom-contrast #rom-fill { background: #ffd400; }
+
+/* ---------- Card ---------- */
+#rom-badge {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: 244px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.88);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  backdrop-filter: blur(14px) saturate(160%);
+  color: #f1f5f9;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  font: 14px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  z-index: 2147483647;
+}
+
+#rom-badge * { box-sizing: border-box; }
+#rom-badge button { font: inherit; cursor: pointer; margin: 0; }
+
+#rom-badge .rom-head { display: flex; align-items: center; justify-content: space-between; }
+#rom-badge .rom-pct { display: flex; align-items: baseline; gap: 5px; }
+#rom-badge #rom-percent { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+#rom-badge .rom-pct small { font-size: 14px; color: #94a3b8; }
+#rom-badge .rom-tools { display: flex; gap: 2px; }
+
+#rom-badge .rom-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #94a3b8;
+}
+#rom-badge .rom-icon:hover { color: #fff; background: rgba(148, 163, 184, 0.2); }
+
+#rom-badge .rom-track {
+  height: 6px;
+  border-radius: 99px;
+  background: rgba(148, 163, 184, 0.22);
+  overflow: hidden;
+}
+#rom-badge #rom-mini {
+  height: 100%;
+  width: 1%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #2dd4bf, #38bdf8);
+  transition: width 0.3s ease;
+}
+
+#rom-badge .rom-chips { display: flex; gap: 8px; }
+#rom-badge .rom-chip {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 10px;
+  border-radius: 12px;
+  background: rgba(148, 163, 184, 0.14);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+#rom-badge .rom-chip b { font-size: 14px; font-weight: 600; }
+#rom-badge .rom-chip span { font-size: 11px; color: #94a3b8; }
+
+#rom-badge #rom-resume {
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 10px;
+  background: #14b8a6;
+  color: #042f2e;
+  font-weight: 600;
+}
+#rom-badge #rom-resume:hover { background: #2dd4bf; }
+#rom-badge #rom-resume[hidden] { display: none; }
+
+/* ---------- Settings panel ---------- */
+#rom-badge #rom-panel {
+  padding-top: 12px;
+  border-top: 1px solid rgba(148, 163, 184, 0.25);
+}
+#rom-badge #rom-panel[hidden] { display: none; }
+#rom-badge .rom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+#rom-badge .rom-themes { display: flex; gap: 8px; }
+#rom-badge .rom-theme {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid #475569;
+}
+#rom-badge .rom-theme[data-theme="light"] { background: #ffffff; }
+#rom-badge .rom-theme[data-theme="sepia"] { background: #e9dcc0; }
+#rom-badge .rom-theme[data-theme="dark"]  { background: #1e293b; }
+#rom-badge .rom-theme[aria-pressed="true"] { border-color: #2dd4bf; }
+
+#rom-badge .rom-step { display: flex; align-items: center; gap: 6px; color: #f1f5f9; }
+#rom-badge .rom-step em { min-width: 40px; text-align: center; font-style: normal; font-size: 13px; }
+#rom-badge .rom-step button {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(148, 163, 184, 0.2);
+  color: #f1f5f9;
+}
+#rom-badge .rom-step button:hover { background: rgba(45, 212, 191, 0.4); }
+
+#rom-badge .rom-switch {
+  position: relative;
+  width: 42px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 99px;
+  background: rgba(148, 163, 184, 0.35);
+  transition: background 0.2s;
+}
+#rom-badge .rom-switch::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.2s;
+}
+#rom-badge .rom-switch[aria-checked="true"] { background: #14b8a6; }
+#rom-badge .rom-switch[aria-checked="true"]::after { transform: translateX(18px); }
+
+#rom-badge #rom-reset {
+  width: 100%;
+  padding: 7px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 13px;
+}
+#rom-badge #rom-reset:hover { background: rgba(148, 163, 184, 0.15); }
+
+#rom-badge button:focus-visible { outline: 3px solid #5eead4; outline-offset: 2px; }
+
+/* ---------- Accessibility modes from the popup ---------- */
+#rom-badge.rom-large { font-size: 18px; width: 300px; }
+#rom-badge.rom-large .rom-chip b { font-size: 17px; }
+#rom-badge.rom-large .rom-row { font-size: 16px; }
+
+#rom-badge.rom-contrast {
+  background: #000;
+  color: #fff;
+  border: 2px solid #ffd400;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+#rom-badge.rom-contrast .rom-pct small,
+#rom-badge.rom-contrast .rom-chip span,
+#rom-badge.rom-contrast .rom-row { color: #fff; }
+#rom-badge.rom-contrast #rom-mini { background: #ffd400; }
+#rom-badge.rom-contrast .rom-track { background: #333; }
+#rom-badge.rom-contrast .rom-chip { background: #1a1a1a; }
+#rom-badge.rom-contrast #rom-resume { background: #ffd400; color: #000; }
+#rom-badge.rom-contrast .rom-switch[aria-checked="true"] { background: #ffd400; }
+#rom-badge.rom-contrast .rom-theme[aria-pressed="true"] { border-color: #ffd400; }
+
+@media (prefers-reduced-motion: reduce) {
+  #rom-fill, #rom-mini, #rom-badge .rom-switch, #rom-badge .rom-switch::after { transition: none; }
+}

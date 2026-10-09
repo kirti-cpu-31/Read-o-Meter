@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Read-o-Meter</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <main>
+    <h1>Read-o-Meter</h1>
+
+    <section id="stats" aria-live="polite">
+      <p id="empty">No article found on this page. Open a long article and try again.</p>
+      <div id="live" hidden>
+        <p id="percent">0% read</p>
+        <p id="left">–</p>
+        <p id="pace">–</p>
+        <p id="words">–</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="settings-title">
+      <h2 id="settings-title">Settings</h2>
+
+      <label for="wpm">Reading speed: <strong id="wpm-value">200</strong> words per minute</label>
+      <input id="wpm" type="range" min="100" max="500" step="10" value="200" />
+      <p class="hint">Used until Read-o-Meter has measured your own pace.</p>
+
+      <label class="check"><input id="enabled" type="checkbox" /> Show on articles</label>
+      <label class="check"><input id="largeText" type="checkbox" /> Larger text</label>
+      <label class="check"><input id="highContrast" type="checkbox" /> High contrast</label>
+
+      <p class="hint">Press Alt + R on a page to hide or show the badge.</p>
+    </section>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>
