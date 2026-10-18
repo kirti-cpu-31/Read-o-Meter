@@ -1,38 +1,127 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Read-o-Meter</title>
-  <link rel="stylesheet" href="popup.css" />
+  <meta charset="utf-8">
+  <title>ReadFlow</title>
+  <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <main>
-    <h1>Read-o-Meter</h1>
+  <header>
+    <h1>📖 ReadFlow</h1>
+    <button id="menu" class="icon-btn" type="button" aria-label="Settings" title="Settings" aria-expanded="false" aria-controls="settings">⋮</button>
+  </header>
 
-    <section id="stats" aria-live="polite">
-      <p id="empty">No article found on this page. Open a long article and try again.</p>
-      <div id="live" hidden>
-        <p id="percent">0% read</p>
-        <p id="left">–</p>
-        <p id="pace">–</p>
-        <p id="words">–</p>
+  <section id="settings" hidden>
+    <h2>Settings</h2>
+
+    <h3>Pomodoro timer length</h3>
+    <div class="presets" role="group" aria-label="Focus time presets">
+      <button type="button" class="preset" data-min="2">2 min</button>
+      <button type="button" class="preset" data-min="5">5 min</button>
+      <button type="button" class="preset" data-min="10">10 min</button>
+      <button type="button" class="preset" data-min="25">25 min</button>
+      <button type="button" class="preset" data-min="45">45 min</button>
+    </div>
+    <div class="inputs">
+      <label>Focus <input type="number" id="focusMin" min="1" max="180" step="1" value="25"> min</label>
+      <label>Break <input type="number" id="breakMin" min="1" max="180" step="1" value="5"> min</label>
+    </div>
+    <p id="cfgMsg" class="muted" role="status">Pick a preset or type any length from 1 to 180 minutes.</p>
+
+    <h3>Dim focus strength</h3>
+    <label class="slider">
+      <input type="range" id="dim" min="40" max="95" step="5" value="85" aria-label="How dark the page around the article gets">
+      <span id="dimVal">85%</span>
+    </label>
+  </section>
+
+  <section id="reading">
+    <div id="wordsLine" class="big">Open an article to see your reading stats.</div>
+    <div id="track" class="track" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="fill"></div></div>
+    <div id="metaLine" class="muted"></div>
+  </section>
+
+  <section>
+    <h2>Reading tools</h2>
+    <label class="row"><span>Progress bar on page</span><input type="checkbox" id="progress"></label>
+    <label class="row"><span>Bionic reading</span><input type="checkbox" id="bionic"></label>
+    <label class="row"><span>Dim focus mode</span><input type="checkbox" id="focus"></label>
+  </section>
+
+  <section>
+    <h2>Text &amp; theme</h2>
+    <div class="ctl">
+      <span>Text size</span>
+      <div class="stepper">
+        <button id="tsDown" class="opt" type="button" aria-label="Smaller text">A−</button>
+        <button id="tsVal" class="opt val" type="button" aria-label="Reset text size to 100 percent" title="Reset">100%</button>
+        <button id="tsUp" class="opt" type="button" aria-label="Larger text">A+</button>
       </div>
-    </section>
+    </div>
+    <div class="ctl-col">
+      <span>Line spacing</span>
+      <div id="lsSeg" class="seg" role="group" aria-label="Line spacing">
+        <button type="button" class="opt" data-ls="0">Auto</button>
+        <button type="button" class="opt" data-ls="1.4">1.4</button>
+        <button type="button" class="opt" data-ls="1.6">1.6</button>
+        <button type="button" class="opt" data-ls="1.8">1.8</button>
+        <button type="button" class="opt" data-ls="2">2.0</button>
+      </div>
+    </div>
+    <div class="ctl-col">
+      <span>Theme</span>
+      <div id="thSeg" class="seg" role="group" aria-label="Theme">
+        <button type="button" class="opt" data-theme="default">Default</button>
+        <button type="button" class="opt" data-theme="light">Light</button>
+        <button type="button" class="opt" data-theme="sepia">Sepia</button>
+        <button type="button" class="opt" data-theme="dark">Dark</button>
+      </div>
+    </div>
+  </section>
 
-    <section aria-labelledby="settings-title">
-      <h2 id="settings-title">Settings</h2>
+  <section>
+    <h2>Panel position</h2>
+    <div id="posSeg" class="seg" role="group" aria-label="Where the panel sits on the page">
+      <button type="button" class="opt" data-v="top" data-h="left" aria-label="Top left">↖ Top left</button>
+      <button type="button" class="opt" data-v="top" data-h="right" aria-label="Top right">↗ Top right</button>
+      <button type="button" class="opt" data-v="bottom" data-h="left" aria-label="Bottom left">↙ Bottom left</button>
+      <button type="button" class="opt" data-v="bottom" data-h="right" aria-label="Bottom right">↘ Bottom right</button>
+    </div>
+    <p class="muted" style="margin-top:6px">You can also drag the panel on the page.</p>
+  </section>
 
-      <label for="wpm">Reading speed: <strong id="wpm-value">200</strong> words per minute</label>
-      <input id="wpm" type="range" min="100" max="500" step="10" value="200" />
-      <p class="hint">Used until Read-o-Meter has measured your own pace.</p>
+  <section>
+    <h2>Summary</h2>
+    <button id="sumBtn" type="button">Summarize this article</button>
+    <p id="sumMsg" class="muted" role="status" style="margin-top:6px"></p>
+    <ul id="sumList"></ul>
+  </section>
 
-      <label class="check"><input id="enabled" type="checkbox" /> Show on articles</label>
-      <label class="check"><input id="largeText" type="checkbox" /> Larger text</label>
-      <label class="check"><input id="highContrast" type="checkbox" /> High contrast</label>
+  <section>
+    <div class="sec-head">
+      <h2>Pomodoro</h2>
+      <button id="editTimer" class="link" type="button">Change time</button>
+    </div>
+    <div id="timer">25:00</div>
+    <div id="phase" class="muted">Ready</div>
+    <div id="cfgSummary" class="muted">Focus 25 min · Break 5 min</div>
+    <div class="btns">
+      <button id="start" type="button">Start</button>
+      <button id="stop" type="button" class="ghost">Stop</button>
+    </div>
+  </section>
 
-      <p class="hint">Press Alt + R on a page to hide or show the badge.</p>
-    </section>
-  </main>
+  <section>
+    <h2>History</h2>
+    <div class="totals">
+      <div><b id="tToday">0m</b><span>Today</span></div>
+      <div><b id="tWeek">0m</b><span>7 days</span></div>
+      <div><b id="tAll">0m</b><span>All time</span></div>
+    </div>
+    <ul id="list"></ul>
+    <button id="clear" type="button" class="ghost small">Clear history</button>
+  </section>
   <script src="popup.js"></script>
 </body>
 </html>
