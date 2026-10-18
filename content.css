@@ -34,5 +34,3 @@ html[data-rf-theme] body{background:var(--rf-bg) !important;color:var(--rf-fg) !
 html[data-rf-theme] body *:not(:is(img,video,canvas,picture,iframe)){color:var(--rf-fg) !important;background-color:transparent !important;border-color:var(--rf-soft) !important}
 html[data-rf-theme] body :is(pre,code,kbd,samp,input,textarea,select){background-color:var(--rf-soft) !important}
 html[data-rf-theme] body a[href],html[data-rf-theme] body a[href] *{color:var(--rf-link) !important}
-
-

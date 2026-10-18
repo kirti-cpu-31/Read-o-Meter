@@ -43,13 +43,3 @@ A browser extension that helps people finish long articles: it shows how many wo
 
 ## Privacy
 Everything stays in your browser's own extension storage (settings, timer lengths, reading history). There is no server and nothing is sent anywhere. To see the saved data, right-click the popup, choose **Inspect**, and run `chrome.storage.local.get(null, console.log)` in the Console.
-
-## STEPS TO SET UP EXTENSION 
-1. Open your Github repo link.
-2. Click green Code button , then download ZIP.
-3. Extract the ZIP to a folder.
-4. Open chrome://extensions in chrome or edge
-5. Turn ON developer mode(yop right)
-6. Click Load Unpacked and select the extracted folder
-7. Pin the extension from the puzzle icon and open any article to try it
-8. TIP : If the ZIP extracts into a folder inside a folder , you must select the inner one that directly contains manifest.json 
